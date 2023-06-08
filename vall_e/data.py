@@ -86,20 +86,38 @@ class VALLEDatset(Dataset):
         self._head = None
         self.min_phones = min_phones
         self.max_phones = max_phones
-
+#
+        print(self.min_phones)
+        print(self.max_phones)
+        for path in paths:
+            print(_validate(path, self.min_phones, self.max_phones))
+#
         self.paths = [
             path for path in paths if _validate(path, self.min_phones, self.max_phones)
         ]
 
+#
+        print(self.paths)
+        #
+        
+
         self.spkr_symmap = spkr_symmap or self._get_spkr_symmap()
         self.phone_symmap = phone_symmap or self._get_phone_symmap()
         self.training = training
+
+#
+        print(self.training)
+#
 
         self.paths_by_spkr_name = self._get_paths_by_spkr_name(extra_paths_by_spkr_name)
 
         self.paths = [
             p for p in self.paths if len(self.paths_by_spkr_name[cfg.get_spkr(p)]) > 1
         ]
+
+#
+        print(self.paths)
+#
 
         if len(self.paths) == 0 and training:
             raise ValueError("No valid path is found for training.")
